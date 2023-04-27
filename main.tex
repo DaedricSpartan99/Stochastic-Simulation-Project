@@ -1,0 +1,104 @@
+\documentclass[10pt]{article}
+\usepackage{MatteoReport}
+\usepackage{amsfonts}
+\usepackage{dsfont}
+\usepackage{sectsty}
+\usepackage{amsmath}
+\usepackage{yhmath}
+\usepackage{mathrsfs}
+\usepackage{amssymb, bbm}
+\usepackage{geometry}
+\usepackage{mathtools}
+\usepackage{graphicx}
+\usepackage{afterpage}
+\usepackage{wrapfig}
+\usepackage{comment}
+
+%\usepackage{mathspec}
+
+% math new commands
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\eps}{\varepsilon}
+\newcommand{\C}{\mathcal{C}}
+\newcommand{\Normal}{\mathcal{N}}
+\newcommand{\LogNormal}{\mathcal{LN}}
+\newcommand{\Lk}{\mathcal{L}}
+\newcommand{\M}{\mathcal{M}}
+\newcommand{\var}{\text{Var}}
+\newcommand{\corr}{\text{corr}}
+\newcommand{\cov}{\text{cov}}
+
+% Absolute value
+\DeclarePairedDelimiter\abs{\lvert}{\rvert}%
+\DeclarePairedDelimiter\norm{\lVert}{\rVert}%
+
+% Tabular 
+\setlength{\arrayrulewidth}{0.5mm}
+\setlength{\tabcolsep}{18pt}
+\renewcommand{\arraystretch}{1.5}
+
+% Swap the definition of \abs* and \norm*, so that \abs
+% and \norm resizes the size of the brackets, and the 
+% starred version does not.
+%\let\oldabs\abs
+%\def\abs{\@ifstar{\oldabs}{\oldabs*}}
+%
+%\let\oldnorm\norm
+%\def\norm{\@ifstar{\oldnorm}{\oldnorm*}}
+
+\course{MATH-414: Stochastic Simulation}
+\subtitle{Group Project:}
+\title{Multi-Level Monte Carlo methods for Option pricing}
+\date{11th January 2023}
+\author{Emanuele \textsc{Sorgente}, Raffaele \textsc{Ancarola}}
+
+\begin{document}
+
+\maketitle
+\addhead
+
+%\input{0_abstract}
+
+%\newpage
+\input{1_introduction.tex}
+
+\input{2_data_methodology.tex}
+
+\input{3_model.tex}
+
+\input{4_conclusion.tex}
+
+%\input{5_appendix.tex}
+
+%\newpage
+%\bibliographystyle{plain}
+%\bibliography{bibliography}
+%\input{6_bibliography.tex}
+
+\newpage
+\printbibliography[
+heading=bibintoc, % bibliography appears in table of contents
+title={Bibliography} % title which appears above the bibliography
+] % prints bibliography
+
+\newpage
+\appendix
+
+\lstset{style=colorEX}
+\lstinputlisting[language=PythonPlus]{MLMC_option_pricing.py}
+%\input{A_code.tex}
+
+\paragraph{Script list}
+\begin{itemize}
+\item Implementations: \texttt{MLMC\_option\_pricing.py}
+\item Euler maruyama test: \texttt{test\_EM.py}
+\item Point (b): \texttt{test\_crude\_mc.py}
+\item Point (c): \texttt{test\_two\_levels.py}
+\item Point (d): \texttt{test\_multi\_level.py}
+\item Point (e): \texttt{test\_multi\_level\_barrier.py}
+\item Point (f): \texttt{test\_var\_redux.py}
+\end{itemize}
+
+\end{document}

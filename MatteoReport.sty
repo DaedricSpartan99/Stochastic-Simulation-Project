@@ -1,0 +1,193 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{MatteoReport}[2022/10/27 package for EPFL reports v0.0]
+
+%================================================================
+
+% Packages
+
+% Basic
+%\usepackage[utf8]{inputenc} % added by default, has since been deprecated
+\usepackage[english]{babel} % language
+\usepackage{indentfirst} % required package
+\usepackage[T1]{fontenc} % useful for 256-glyph alphabets ???(ie accents)
+\usepackage{amssymb} % special characters
+
+% Formatting
+\usepackage{geometry} % page payout
+\usepackage{fancyhdr} % custom header and footer
+\usepackage{ragged2e} % align text left, right or centered
+\usepackage{graphicx} % insert images
+\usepackage[hidelinks]{hyperref} % cross-document referencing, hides link boxes
+\usepackage{url} % add urls
+\usepackage{tabularx} % tables
+\usepackage[center]{caption} % figure captions are centered
+\usepackage{adjustbox}
+\usepackage{subcaption}
+\usepackage{helvet} %  helvetica font
+\usepackage{float}
+\usepackage{enumerate}
+\usepackage[shortlabels]{enumitem} % Suppress indent before enumerate
+\usepackage{enumitem} % Custom enum labels
+\usepackage[toc,page]{appendix} % Adds appendix to toc
+
+% Advanced
+\usepackage[
+backend=biber, % not sure but it's this or bibtex and this is better
+style=numeric, % citation style
+%sorting=ynt % indexing year-name-time
+sorting = none % indexing in order of appearance
+]{biblatex}
+
+\usepackage{csquotes} % recommended using biblatex and babel
+\usepackage{amsmath} % math
+\usepackage{siunitx} % SI units
+\usepackage{pdfpages} % insert PDF's
+\usepackage{listings} % format code
+\usepackage{xparse} % advanced newcommands
+
+%================================================================
+
+% Format the document
+
+\renewcommand{\familydefault}{\sfdefault} % set font to Arial
+\geometry{ left=25mm,right = 25mm,top=30mm,bottom=30mm} % page margins
+\renewcommand{\baselinestretch}{1} % line spacing
+\setlength{\parskip}{0.5em} % space between paragraphs
+\setlength{\parindent}{0pt} % Suppress paragraph indent
+
+\pagestyle{fancy} % custom header + footer
+\fancyhf{} % clear default header + footer
+%\lhead{\small NX-421 - Neural Signals and Signla Processing} % header on left side
+%\rhead{\small Coding assignment} % header on right side
+\cfoot{\thepage} % central footer is page number
+\renewcommand{\headrulewidth}{0pt} % suppress line under header
+
+\addbibresource{bibliography.bib} %Imports bibliography file
+
+%================================================================
+
+% Title
+% Adapted from Wikibooks example:
+% https://en.wikibooks.org/wiki/LaTeX/Title_Creation
+
+\newcommand*{\course}[1]{\gdef\@course{#1}}
+
+\newcommand*{\makesmalltitle}{
+    \centering
+    \includegraphics[width=0.10\textwidth]{epfl_logo.png} \par
+    \textsc{\large \@course} \par
+    \vspace{6pt}
+    \Large \textbf{\@title} \par
+    %\vspace{-2pt}
+    \textsc{\large \@date} \par
+    %\vspace{6pt}
+    %\large \@group: \par
+    \vspace{-2pt}
+    \@author \par
+    \vspace{.5cm}
+    \raggedright
+    \normalsize
+}
+
+\newcommand*{\subtitle}[1]{\gdef\@subtitle{#1}}
+
+\renewcommand{\maketitle}{
+    \begin{titlepage}
+        \centering
+            \normalsize \textsc{\@course} \par
+            \vspace{1cm}
+            \rule{0.85\textwidth}{0.75pt} \par
+            \vspace{18pt}
+            \Large \textbf{\@subtitle} \par
+            \Huge \textbf{\@title} \par
+            \rule{0.65\textwidth}{0.75pt} \par
+            \vspace{2cm}
+            %%\Large \@group: \par
+            \vspace{-2pt}
+            \Large \@author \par
+            \vspace{2cm}
+            \Large \textsc{\@date} \par
+            \vfill
+            \includegraphics[width=0.25\textwidth]{graphics/epfl_logo.png} \par
+    \end{titlepage}
+}
+
+\newcommand*{\nopagenumbers}{\cfoot{}}
+
+%\newcommand*{\addhead}{
+%    \lhead{\small \@course}
+%    \rhead{\small \@title}
+%}
+\newcommand*{\addhead}{
+    \lhead{\small MATH-414}
+    \rhead{\small \@title}
+}
+%================================================================
+
+% Syntax for if(exists(arg)) inside newcommand :
+%\IfNoValueTF{#1}
+%    {code when no optional argument is passed}
+%    {code when the optional argument #1 is present}
+
+% Syntax for if optional argument:
+%  \IfValueTF {#3}
+%   {\gdef\foo{#1,#2,#3}}
+%   {\gdef\foo{#1,#2,bar}}%
+
+%==== listing setup
+
+\usepackage{color}
+\definecolor{darkred}{rgb}{0.6,0.0,0.0}
+\definecolor{darkgreen}{rgb}{0,0.50,0}
+\definecolor{lightblue}{rgb}{0.0,0.42,0.91}
+\definecolor{orange}{rgb}{0.99,0.48,0.13}
+\definecolor{grass}{rgb}{0.18,0.80,0.18}
+\definecolor{pink}{rgb}{0.97,0.15,0.45}
+
+% listings
+
+% General Setting of listings
+\lstset{
+  aboveskip=1em,
+  breaklines=true,
+  abovecaptionskip=-6pt,
+  captionpos=b,
+  escapeinside={\%*}{*)},
+  frame=single,
+  numbers=left,
+  numbersep=15pt,
+  numberstyle=\tiny,
+}
+% 0. Basic Color Theme
+\lstdefinestyle{colored}{ %
+  basicstyle=\ttfamily,
+  backgroundcolor=\color{white},
+  commentstyle=\color{green}\itshape,
+  keywordstyle=\color{blue}\bfseries\itshape,
+  stringstyle=\color{red},
+}
+% 1. General Python Keywords List
+\lstdefinelanguage{PythonPlus}[]{Python}{
+  morekeywords=[1]{,as,assert,nonlocal,with,yield,self,True,False,None,} % Python builtin
+  morekeywords=[2]{,__init__,__add__,__mul__,__div__,__sub__,__call__,__getitem__,__setitem__,__eq__,__ne__,__nonzero__,__rmul__,__radd__,__repr__,__str__,__get__,__truediv__,__pow__,__name__,__future__,__all__,}, % magic methods
+  morekeywords=[3]{,object,type,isinstance,copy,deepcopy,zip,enumerate,reversed,list,set,len,dict,tuple,range,xrange,append,execfile,real,imag,reduce,str,repr,}, % common functions
+  morekeywords=[4]{,Exception,NameError,IndexError,SyntaxError,TypeError,ValueError,OverflowError,ZeroDivisionError,}, % errors
+  morekeywords=[5]{,ode,fsolve,sqrt,exp,sin,cos,arctan,arctan2,arccos,pi, array,norm,solve,dot,arange,isscalar,max,sum,flatten,shape,reshape,find,any,all,abs,plot,linspace,legend,quad,polyval,polyfit,hstack,concatenate,vstack,column_stack,empty,zeros,ones,rand,vander,grid,pcolor,eig,eigs,eigvals,svd,qr,tan,det,logspace,roll,min,mean,cumsum,cumprod,diff,vectorize,lstsq,cla,eye,xlabel,ylabel,squeeze,}, % numpy / math
+}
+% 2. New Language based on Python
+\lstdefinelanguage{PyBrIM}[]{PythonPlus}{
+  emph={d,E,a,Fc28,Fy,Fu,D,des,supplier,Material,Rectangle,PyElmt},
+}
+% 3. Extended theme
+\lstdefinestyle{colorEX}{
+  basicstyle=\ttfamily,
+  backgroundcolor=\color{white},
+  commentstyle=\color{darkgreen}\slshape,
+  keywordstyle=\color{blue}\bfseries\itshape,
+  keywordstyle=[2]\color{blue}\bfseries,
+  keywordstyle=[3]\color{grass},
+  keywordstyle=[4]\color{red},
+  keywordstyle=[5]\color{orange},
+  stringstyle=\color{darkred},
+  emphstyle=\color{pink}\underbar,
+}
